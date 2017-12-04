@@ -1,0 +1,512 @@
+var App = {};
+
+App.name = 'App';
+App.year = (new Date).getFullYear();
+App.font = 'RobotoDraft';
+App['default'] = '#e2e2e2';
+App.textColor = '#6B6B6B';
+App.white = 'white';
+App.border = '#e4e4e4';
+App.dark = '#4C5064';
+App.danger = '#d96557';
+App.info = '#4cc3d9';
+App.success = '#2ECC71';
+App.warning = '#ffc65d';
+App.bodyBg = '#e0e8f2';
+App.primary = '#09c';
+App.dblue = 'rgb(57,137,209)';
+App.standard = '#A00B0F';
+App.defaultTitle = "提示";
+App.base = function(isMask, owidth, oheight, title, connextId) {
+    App.Close();
+    if($.browser.msie) {
+        isMask = "maskTitle";
+    }// 为IE加MASK
+    var divString = '';
+    var docHeight = $(document).height();
+    if(isMask == "true" || isMask == "maskTitle") {
+        if($.browser.msie && ($.browser.version < "7.0")) {
+            divString = '<div id="maskId" class="mask" style="width:100%; display:none; height:' + docHeight
+                    + 'px"><iframe width="100%" height=' + docHeight
+                    + ' frameborder=0 id="ifram"></iframe></div>';
+        } else {
+            divString = '<div id="maskId" class="mask" style="width:100%; display:none; height:' + docHeight
+                    + 'px"></div>';
+        }
+    } else {
+        divString = '';
+    }
+    divString += '<div class="Altdiv" id="maskBoxId" style="left:0; top:0;position:absolute; width:' + owidth
+            + 'px; display:none; height:' + oheight + 'px;">';
+
+    if(title) {
+        divString += '<div class="Alttit"><a class="close_ab" href="javascript:void(0);" onclick="App.Close()"><img src="/images/close.jpg" alt="关闭" title="关闭" /></a>'
+                + title + '</div>';
+    }
+    divString += '<div id="MaskTxtId" class="AltdivC"></div></div>';
+    $("body").append(divString);
+    if(connextId) {
+        var getC = $("#" + connextId).html();
+        $("#MaskTxtId").html(getC);
+    }
+    var windowWidth = $(window).width(), windowHeight = $(window).height(), getMsBoxWidth = $("#maskBoxId").width(), getMsBoxHeight = $(
+            "#maskBoxId").height(), getScrollTop = $(document).scrollTop(), MBLeft = (windowWidth / 2)
+            - (getMsBoxWidth / 2), MBTop = getScrollTop + windowHeight / 2 - getMsBoxHeight / 2;
+    MBTop = (MBTop < 0) ? 0 : MBTop;
+    $("#maskBoxId").css({
+        "left" : MBLeft,
+        "top" : MBTop
+    });
+    $("#maskId").show();
+    $("#maskBoxId").show();
+};
+App.Close = function() {
+    ($("#ifram").attr("id") == "ifram") ? ($("#ifram").remove()) : "";
+    ($("#maskId").attr("id") == "maskId") ? ($("#maskId").remove()) : "";
+    ($("#maskBoxId").attr("id") == "maskBoxId") ? ($("#maskBoxId").remove()) : "";
+};
+App.Clear = function(timer) {
+    var time = (timer && timer != "") ? timer : 2;
+    setTimeout(function() {
+        App.Close();
+    }, time * 1000);
+};
+
+$(document).ready(function() {
+    moment.locale('zh-cn');
+});
+var Alt = App.Alt = {};
+
+Alt.success = function(type, timer) {
+    var SuccussArray = ['Success!', 'Send Success!', 'Delete Success!', 'Operation Success!'];
+    Cms.base('false', '400', '60');
+    $("#MaskTxtId").parent().css({
+        "opacity" : 0.95
+    });
+    $("#MaskTxtId").html('<div class="cenalig font_14" >' + SuccussArray[type] + '</div>');
+    Cms.Clear(timer);
+};
+Alt.warning = function(type, timer) {
+    var SuccussArray = ['The content exists,please chec it!', 'Send Failure!', 'Delete Failure!', 'Operation Failure!'];
+    Cms.base('false', '430', '100');
+    $("#MaskTxtId").parent().css({
+        "opacity" : 0.95
+    });
+    $("#MaskTxtId").html('<div class="cenalig font_14" >' + SuccussArray[type] + '</div>');
+    Cms.Clear(timer);
+};
+Alt.successInfo = function(type, info, timer) {
+    var SuccussArray = ['Success!', 'Send Success!', 'Delete Success!', 'Operation Success!'];
+    Cms.base('false', '430', '100');
+    $("#MaskTxtId").parent().css({
+        "opacity" : 0.95
+    });
+    $("#MaskTxtId").html('<div class="cenalig font_14" >' + SuccussArray[type] + '(' + info + ')</div>');
+    Cms.Clear(timer);
+};
+Alt.warningInfo = function(type, info, timer) {
+    var SuccussArray = ['The content exists,please chec it!', 'Send Failure!', 'Delete Failure!', 'Operation Failure!'];
+    Cms.base('false', '430', '100');
+    $("#MaskTxtId").parent().css({
+        "opacity" : 0.95
+    });
+    $("#MaskTxtId").html('<div class="cenalig font_14" >' + SuccussArray[type] + '(' + info + ')</div>');
+    Cms.Clear(timer);
+};
+Alt.info = function(info, timer) {
+    Cms.base('false', '430', '100');
+    $("#MaskTxtId").parent().css({
+        "opacity" : 0.95
+    });
+    $("#MaskTxtId").html('<div class="cenalig font_14" >' + info + '</div>');
+    Cms.Clear(timer);
+};
+/**
+ * @param string selector 选择器
+ * @param number timer 样式保持超时时间
+ * @param string element 可选项,CSS元素,默认为'background'
+ * @param string value 可选项,CSS元素值,默认为'red'
+ * @param Object option 可选项,选项，暂无参数项
+ * @param Function callback 可选项，结束回调函数
+ */
+Alt.focus = function(selector, timer, element, value, option, callback) {
+    timer = _.isNumber(timer) ? timer : 1;
+    element = _.isUndefined(element) ? 'background' : element;
+    value = _.isUndefined(value) ? 'red' : value;
+    option = _.isUndefined(option) ? {} : option;
+    callback = _.isFunction(callback) ? callback : function() {};
+    var raw = $(selector).css(element);
+    
+    $(selector).css(element, value);
+    setTimeout(function() {
+        $(selector).css(element, raw);
+        callback();
+    }, timer * 1000);
+};
+/**
+ * @param string selector 选择器
+ * @param number timer 闪烁超时时间
+ * @param number gap 闪烁间隙
+ * @param string element 可选项,CSS元素,默认为'background'
+ * @param string value 可选项,CSS元素值,默认为'red'
+ * @param Object option 可选项,选项，暂无参数项
+ * @param Function callback 可选项，结束回调函数
+ */
+Alt.flash = function(selector, timer, gap, element, value, option, callback) {
+    timer = _.isNumber(timer) ? timer : 1;
+    gap = _.isNumber(gap) ? gap : 0.1;
+    element = _.isUndefined(element) ? 'background' : element;
+    value = _.isUndefined(value) ? 'red' : value;
+    option = _.isUndefined(option) ? {} : option;
+    callback = _.isFunction(callback) ? callback : function() {};
+    var raw = null;
+    var israw = false;
+    var isattr = option.attr ? true : false;
+    var restore = option.restore ? true : false;
+
+    if(isattr) {
+    	raw = $(selector).attr(element);
+    	$(selector).attr(element, value);
+    } else {
+    	raw = $(selector).css(element);
+    	$(selector).css(element, value);
+    }
+    var tmp = setInterval(function() {
+        if(israw && isattr) {
+            $(selector).attr(element, value);
+        } else if(isattr) {
+            $(selector).attr(element, raw);
+        } else if(israw) {
+            $(selector).css(element, value);
+        } else {
+            $(selector).css(element, raw);
+        }
+        israw = !israw;
+    }, gap * 1000);
+    setTimeout(function() {
+        clearInterval(tmp);
+        if(isattr && restore) {
+        	$(selector).attr(element, raw);
+        } else if(restore) {
+        	$(selector).css(element, raw);
+        } else if(isattr) {
+        	$(selector).attr(element, value);
+        } else {
+        	$(selector).css(element, value);
+        }
+        callback();
+    }, timer * 1000);
+};
+/**
+ * @param string selector 选择器
+ * @param number timer 闪烁超时时间
+ * @param number gap 闪烁间隙
+ * @param number coefficient 样式保持超时时间与闪烁超时时间的系数
+ * @param string element 可选项,CSS元素,默认为'background'
+ * @param string color 可选项,色彩,默认为'red'
+ * @param Object option 可选项,选项，暂无参数项
+ * @param Function callback 可选项，结束回调函数
+ */
+Alt.flashFcous = function(selector, timer, gap, coefficient, element, value, option, callback) {
+    timer = _.isNumber(timer) ? timer : 0.6;
+    gap = _.isNumber(gap) ? gap : 0.1;
+    coefficient = _.isNumber(coefficient) ? coefficient : 4;
+    App.Alt.flash(selector, timer, gap, element, value, option, function() {
+        App.Alt.focus(selector, timer * coefficient, element, value, option, callback);
+    });
+};
+var Util = App.Util = {};
+
+
+// some util api
+Util.exists = function(selector) {
+    return $(selector).length > 0;
+};
+Util.detectError = function(ret) {
+	return ret.error ? ret.error : ( ret.msg ? ret.msg : ret.code);
+};
+
+Util.monthNames = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
+
+Util.getNumberLength = function(data) {
+	return data.toString().length;
+}
+//父子iframe回调接收器，有一定的协议规则
+var Acceptor = App.Acceptor = {};
+/**
+ * 处理接收器，通过是否是子域或其他来重导向App.Acceptor.fromChild、App.Acceptor.fromSelf、App.Acceptor.fromParent等等
+ * @param string|int id ID
+ * @param string type 标识接收器处理类型
+ * @param Object data 数据
+ * @param Object option 选项
+ * @param Function callback 回调函数
+ */
+Acceptor.inspire = function(id, type, data, option, callback) {
+    if(!_.isUndefined(window.parent) && window.parent) {
+        id = id ? id : window.name;
+        window.parent.App.Acceptor.fromChild(id, type, data, option, callback);
+    } else {
+        id = id ? id : window.name;
+        window.App.Acceptor.fromSelf(id, type, data, option, callback);
+    }
+};
+/**
+ * 本域接收器
+ * @param string|int self_id ID
+ * @param string type 标识接收器处理类型
+ * @param Object data 数据
+ * @param Object option 选项
+ * @param Function callback 回调函数
+ */
+Acceptor.fromSelf = function(self_id, type, data, option, callback) {
+    data = _.isObject(data) ? data : {};
+    data.args = _.isArray(data.args) ? data.args : [];//一些返回类型是函数名时携带的一些参数
+    data.cmd = _.isString(data.cmd) ? data.cmd : '';//cmd
+    data.data = _.isObject(data.data) ? data.data : {};//当返回类型是callback时cmd下的一些数据
+    option = _.isUndefined(option) ? {} : option;//更多选项
+    callback = _.isFunction(callback) ? callback : function() {};//回调函数
+
+    //根据不同返回类型处理
+    if(type == 'alert') {//要求弹出信息
+        if(data.success) {
+            App.Alt.successInfo(3, data.args[0], 1);
+        } else {
+            App.Alt.warningInfo(3, data.args[0], 1);
+        }
+    } else if(type == 'history.go') {//要求返回
+        if(data.args[0]) {
+            setTimeout(function() {
+                history.go(data.args[0]);
+            }, 1000);
+        }
+    } else if(type == 'location.href') {//要求跳转
+        if(data.args[0]) {
+            setTimeout(function() {
+                location.href = data.args[0];
+            }, 1000);
+        }
+    } else if(type == 'callback') {//当返回类型是'callback'时
+        location.href = _.isString(data.href) ? '/' : data.href;
+    } else {
+        //什么也不做
+    }
+    callback();
+};
+/**
+ * 子域接收器
+ * @param string|int child_id ID
+ * @param string type 标识接收器处理类型
+ * @param Object data 数据
+ * @param Object option 选项
+ * @param Function callback 回调函数
+ */
+Acceptor.fromChild = function(child_id, type, data, option, callback) {
+    data = _.isObject(data) ? data : {};
+    data.args = _.isArray(data.args) ? data.args : [];//一些返回类型是函数名时携带的一些参数
+    data.cmd = _.isString(data.cmd) ? data.cmd : '';//cmd
+    data.data = _.isObject(data.data) ? data.data : {};//当返回类型是callback时cmd下的一些数据
+    option = _.isUndefined(option) ? {} : option;//更多选项
+    callback = _.isFunction(callback) ? callback : function() {};//回调函数
+    
+    //根据不同返回类型处理
+    if(type == 'alert') {//要求弹出信息
+        if(data.success) {
+            App.Alt.successInfo(3, data.args[0], 1);
+        } else {
+            App.Alt.warningInfo(3, data.args[0], 1);
+        }
+    } else if(type == 'history.go') {//要求返回
+        if(data.args[0]) {
+            setTimeout(function() {
+                history.go(data.args[0]);
+            }, 3000);
+        }
+    } else if(type == 'location.href') {//要求跳转
+        if(data.args[0]) {
+            setTimeout(function() {
+                location.href = data.args[0];
+            }, 1000);
+        }
+    } else if(type == 'callback') {//当返回类型是'callback'时
+        switch(data.cmd) {
+            case 'filter_upload': //filter_upload
+                var filter = data.data;
+                var id = filter.id;
+                var has_sign = filter.has_sign;
+                var filtersign = filter.filtersign;
+                //$('#filter_' + id + ' td').css('background', 'red');
+                if(has_sign && filtersign) {
+                    $('#has_sign_' + id).html(has_sign);
+                    $('#sign_file_' + id).val(filtersign);
+                }
+                App.Alt.FlashFcous('#filter_' + id + ' td');
+                break;
+            case 'banner_edit': //banner_edit
+                var banner = data.data;
+                var id = banner.id;
+                var name = banner.name;
+                var url = banner.url;
+                var img_url = banner.banner_url;
+                $('#name_' + id).html(name);
+                $('#url_' + id).html(url);
+                $('#img_' + id + ' img').attr('src', img_url);
+                $('#img_url_' + id).val(img_url);
+                App.Alt.FlashFcous('#banner_' + id + ' td');
+                break;
+        }
+    } else {
+        //什么也不做
+    }
+    callback();
+};
+/**
+ * 父域接收器
+ * @param string|int parent_id ID
+ * @param string type 标识接收器处理类型
+ * @param Object data 数据
+ * @param Object option 选项
+ * @param Function callback 回调函数
+ */
+Acceptor.fromParent = function(parent_id, data, option, callback) {
+    
+};
+/**
+ * JSONP形式的接收器
+ * @param Array args 参数数据数组
+ */
+Acceptor.jsonp = function(args) {
+    console.log(args);
+};
+$(document).ready(function(){
+    // hide mask
+    if($.browser.msie && ($.browser.version == '6.0' || $.browser.version == '7.0')) { $("#mask").hide(); }
+    //验证码
+    $("#getcode_char").attr("src", "verifyCode.php?key=verifyCode&_dr=" + Math.random() );
+    //获取图片
+    $("#getcode_char").click(function(){
+        $(this).attr("src", "verifyCode.php?key=verifyCode&_dr=" + Math.random() );
+        return false;
+    });
+    //验证
+    $("#code_char").blur(function(){
+        var code_char = new String($("#code_char").val());
+        
+            code_char = code_char.toLowerCase();
+            //url,content,data
+            $.post("verifyCode.php?act=char&key=checkCode",{"verifyCode":code_char},function(msg){
+                var json = eval(msg);
+                if(json && json.success == "1"){
+                    $("#user_info").css({"color":"green"});
+                    $("#verifyCodeSuccess").val("1");
+                    $("#user_info").html("验证码正确！");
+                }else{
+                    $("#user_info").css({"color":"red"});
+                    $("#verifyCodeSuccess").val("0");
+                    $("#user_info").html("验证码错误！");
+                }
+            });
+    });
+	
+	$("#username").blur(function(){
+		$username = $("#username").val();
+		if($username == "") {
+			$("#user_info").css({"color":"red"});
+			$("#user_info").html("用户名不能为空！");
+		} else {
+			$("#user_info").html('&nbsp;');
+		}
+	});
+	$("#password").blur(function(){
+		$password = $("#password").val();
+		if($password == "") {
+			$("#user_info").css({"color":"red"});
+			$("#user_info").html("密码不能为空！");
+		} else {
+			$("#user_info").html('&nbsp;');
+		}
+	});
+	
+	
+	$('#other_account').click(function(){
+		//onclick="javascript:document.getElementById('otherlogin').value=1;document.getElementsByTagName('form')[0].submit();"
+		$('#otherlogin').val('1');
+		$('form').submit();
+	});
+    $('#forgot_password').click(function(){
+        clickForgotPassword(this);
+    });
+
+    $('input, textarea').placeholder();
+});
+
+function checkUsernameAndPassword(){
+    $username = $("#username").val();
+    $password = $("#password").val();
+    if($username == "" || $password == ""){
+        $("#user_info").css({"color":"red"});
+        if($username == "" ){
+            $("#user_info").html("用户名不能为空！");
+        }
+        if($password == "" ){
+            $("#user_info").html("密码不能为空！");
+        }
+        if($username == "" && $password == "" ){
+            $("#user_info").html("用户名和密码不能为空！");
+        }
+        return false;
+    } else{
+        return true;
+    }
+}
+/*function checkUsername() {
+    $username = $("#username").val();
+    if($username == "") {
+        $("#user_info").css({"color":"red"});
+        $("#user_info").html("用户名不能为空！");
+    } else {
+        $("#user_info").html('&nbsp;');
+    }
+}
+function checkPassword() {
+    $password = $("#password").val();
+    if($password == "") {
+        $("#user_info").css({"color":"red"});
+        $("#user_info").html("密码不能为空！");
+    } else {
+        $("#user_info").html('&nbsp;');
+    }
+}*/
+
+function validateUsernameAndPassword(){
+    $username = $("#username").val();
+    $password = $("#password").val();
+	console.log($password);
+    if($username == "" || $password == ""){
+        if($username == "" && $password == "" ){
+            $("#user_info").html("用户名和密码不能为空！");
+            alert("用户名和密码不能为空！");
+        } else if($username == "" ){
+            $("#user_info").html("用户名不能为空！");
+            alert("用户名不能为空！");
+        } else if($password == "" ){
+            $("#user_info").html("密码不能为空！");
+            alert("密码不能为空！");
+        }
+        return false;
+    } else if( $("#getcode_char").attr("src") != null ){
+        if( $("#verifyCodeSuccess").val() != "1"){
+            alert("验证码错误！");
+            return false;
+        }
+    } else{
+        return true;
+    }
+
+}
+
+function clickForgotPassword(el) {
+    var href = $(el).attr('data-href');
+    if(href) {
+        window.location.href=href;
+    }
+}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<!-- saved from url=(0174)http://sso.lixin.edu.cn/authorize.php?client_id=ufsso_longmeng_portal_index&redirect_uri=http%3A%2F%2Fsso.lixin.edu.cn%2Findex.html&response_type=token&state=1q2w3e#success=1 -->
+<html lang="zh-cn" ng-app=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <title>登录 :: 校园网门户</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="/stylesheets/admin.urban.css">
+    <style type="text/css">
+	body{
+		background:#fff;
+	}
+    .case_cover_img {
+        width: 90px;
+        height: 90px;
+        border-radius: 5px;
+        /*box-shadow: 0 2px 2px rgba(0,0,0,.2);*/
+    }
+    .case_name {
+        display: inline-block;
+        width: 110px;
+        margin: 0 -15px;
+        overflow: hidden;
+        color: #333;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    .notice {
+        color:#FF0000;
+        font-weight: bold;
+    }
+    .notice-info {
+        color:#FF0000;
+    }
+    .form-group {
+        padding: 0 20px;
+    }
+    .title {
+        display: block;
+        position: absolute;
+        left: 0px;
+        right: 0;
+        bottom: 0;
+        color: #333;
+        font-size: 12px;
+        font-weight: bold;
+        line-height: 22px;
+    }
+	.mask { 
+		display: block;
+		position: absolute;
+		top: -4px;
+		left: 0px;
+		right:0;
+		height: 114px;
+		background-image: url(/images/icons_20121001/appsIconbg.png);
+		background-position:center center;
+		background-repeat:no-repeat; 
+		z-index:-1;
+	}
+	.mb5{
+		position:relative;
+	}
+	.bg-white{
+		background:none;
+	}
+    .no-padding{
+        padding:0!important;
+    }
+    .weixin_login {
+        text-align: center
+    }
+    .weixin_login a {
+        display: inline-block;
+        border: 0px;
+        margin: 0 10px;
+    }
+	/*#weixin_login{
+		float:right;
+	}*/
+    </style>
+    <script type="text/javascript" src="/javascripts/authorizelib.js.下载"></script>
+    <script type="text/javascript" src="/javascripts/authorize.js.下载"></script>
+</head>
+<body>
+    <div class="app layout-fixed-header bg-white usersession">
+        <div class="full-height">
+            <div class="center-wrapper">
+                <div class="center-content">
+                    <div class="row no-margin">
+                        <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+                            <form role="form" action="http://sso.lixin.edu.cn/authorize.php?client_id=ufsso_longmeng_portal_index&amp;response_type=token&amp;redirect_uri=http%3A%2F%2Fsso.lixin.edu.cn%2Findex.html&amp;state=1q2w3e" method="post" class="form-layout">
+                                <div class="text-center mb10"> <img src="/images/logo.portal.png"> </div>
+                                <p class="text-center mb10">欢迎使用认证平台</p>
+                                <div class="text-center mb15">
+                                    <p class="mb5">
+                                        <img class="case_cover_img" src="/images/sso_logo_portal.png"">
+                                        <span class="title">校园网门户</span>										<span class="mask"></span>
+                                    </p>
+                                </div>
+                                <div class="form-inputs form-group">
+                                    <div class="mb5">
+                                        <span id="user_info" class="notice-info">&nbsp;</span>
+                                    </div>
+                                                                    <div class="mb5">
+                                        <span class="notice">教师请使用8位新工号登录</span>
+                                    </div>
+                                    <input id="username" name="username" type="text" class="form-control input-lg" placeholder="用户名">
+                                    <input id="password" name="password" type="password" class="form-control input-lg" placeholder="密码">
+                                                                        <button class="btn btn-success btn-block btn-lg mb15" type="submit" onclick="return validateUsernameAndPassword()" ;=""> <span>登录</span> </button>
+                                    <p> <!-- <a href="extras-signup.html">注册</a> ·  -->
+                                        <!--<a href="http://duanxin.lixin.edu.cn/resetpassword.htm">忘记密码?</a>-->
+										<!--<a id="weixin_login" href="?corp_id=&redirect_uri=&state=Ys2sxopZW50X2lkPXVmc3NvX2xvbmdtZW5nX3BvcnRhbF9pbmRleCZyZWRpcmVjdF91cmk9aHR0cCUzQSUyRiUyRnNzby5saXhpbi5lZHUuY24lMkZpbmRleC5odG1sJnJlc3BvbnNlX3R5cGU9dG9rZW4mc3RhdGU9MXEydzNl&usertype=member">微信登录</a> -->
+										<a id="forgot_password" data-href="http://duanxin.lixin.edu.cn/resetpassword.htm">忘记密码?</a>
+                                        <!--<a id="login_by_yb" data-href=""></a>-->
+                                    </p>
+                                    <p class="weixin_login">
+                                        <span></span>
+                                    </p>
+                                    <p class="weixin_login">
+                                        <a id="weixin_login" href="http://sso.lixin.edu.cn/authorize.php?corp_id=&amp;redirect_uri=&amp;state=Ys2sxopZW50X2lkPXVmc3NvX2xvbmdtZW5nX3BvcnRhbF9pbmRleCZyZWRpcmVjdF91cmk9aHR0cCUzQSUyRiUyRnNzby5saXhpbi5lZHUuY24lMkZpbmRleC5odG1sJnJlc3BvbnNlX3R5cGU9dG9rZW4mc3RhdGU9MXEydzNl&amp;usertype=member"><img src="http://sso.lixin.edu.cn/authorize.php?client_id=ufsso_longmeng_portal_index&amp;redirect_uri=http%3A%2F%2Fsso.lixin.edu.cn%2Findex.html&amp;response_type=token&amp;state=1q2w3e"></a>
+                                    </p>
+                                                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body></html>
